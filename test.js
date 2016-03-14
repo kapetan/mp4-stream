@@ -12,6 +12,11 @@ tape('generates and parses', function (t) {
         t.same(box.brand, 'mafi')
         t.same(box.brandVersion, 1)
       })
+    } else if (headers.type === 'free') {
+      decode.decode(function (box) {
+        t.same(box.type, 'free')
+        t.same(box.buffer.length, 0)
+      })
     } else if (headers.type === 'mdat') {
       t.same(headers.type, 'mdat')
       t.same(headers.length, 8 + 11)
@@ -33,6 +38,11 @@ tape('generates and parses', function (t) {
     type: 'ftyp',
     brand: 'mafi',
     brandVersion: 1
+  })
+
+  encode.box({
+    type: 'free',
+    buffer: new Buffer(0)
   })
 
   var stream = encode.mediaData(11)
